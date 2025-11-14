@@ -11,7 +11,6 @@ app.use(express.json());
 const uri =
   "mongodb+srv://projects-db:W3gn3R6OcMphvIAx@cluster0.fyk0nds.mongodb.net/?appName=Cluster0";
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -49,8 +48,8 @@ async function run() {
     ////4.create many projects
 
     app.post("/projects/newCollection", async (req, res) => {
-      const projects = req.body;
-      const result = await projectsCollection.insertMany(projects);
+      const projectsnewCollection = req.body;
+      const result = await projectsCollection.insertMany(projectsnewCollection);
       res.send(result);
     });
 
@@ -66,7 +65,7 @@ async function run() {
 
     ///6.Delete single project
 
-    app.delete("projects/:id", async (req, res) => {
+    app.delete("/projects/:id", async (req, res) => {
       const { id } = req.params;
       const query = { _id: new ObjectId(id) }; ///this id matches with mongodb _id
       const result = await projectsCollection.deleteOne(query);
