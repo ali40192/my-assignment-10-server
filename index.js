@@ -24,16 +24,16 @@ async function run() {
     await client.connect();
 
     const db = client.db("my-bookCollection");
-    const projectsCollection = db.collection("books");
+    const booksCollection = db.collection("books");
     ////1.Get all
     app.get("/allbooks", async (req, res) => {
-      const results = await projectsCollection.find().toArray();
+      const results = await booksCollection.find().toArray();
       res.send(results);
     });
 
     ///get 6 data///
     app.get("/leatest-six", async (req, res) => {
-      const results = await projectsCollection
+      const results = await booksCollection
         .find()
         .sort({ createdAt: -1 })
         .limit(6)
@@ -42,34 +42,34 @@ async function run() {
     });
 
     ///2.Get single book
-    app.get("/books/:id", async (req, res) => {
+    app.get("/allbooks/:id", async (req, res) => {
       const { id } = req.params;
       const objectId = new ObjectId(id);
-      const result = await projectsCollection.findOne({ _id: objectId });
+      const result = await booksCollection.findOne({ _id: objectId });
       res.send(result);
     });
 
     ///3.Create single book
-    app.post("/books", async (req, res) => {
+    app.post("/allbooks", async (req, res) => {
       const project = req.body;
-      const result = await projectsCollection.insertOne(project);
+      const result = await booksCollection.insertOne(project);
       res.send(result);
     });
     ////4.create many books
 
-    app.post("/books/newCollection", async (req, res) => {
-      const projectsnewCollection = req.body;
-      const result = await projectsCollection.insertMany(projectsnewCollection);
+    app.post("/allbooks/newCollection", async (req, res) => {
+      const booksnewCollection = req.body;
+      const result = await booksCollection.insertMany(booksnewCollection);
       res.send(result);
     });
 
     ///5.Update single book
     app.put("/single-book/:id", async (req, res) => {
       const { id } = req.params;
-      const updatedProject = req.body;
+      const updatedBook = req.body;
       const filter = { _id: new ObjectId(id) };
-      const update = { $set: updatedProject };
-      const result = await projectsCollection.updateOne(filter, update);
+      const update = { $set: updatedBook };
+      const result = await booksCollection.updateOne(filter, update);
       res.send(result);
     });
 
@@ -78,7 +78,7 @@ async function run() {
     app.delete("/books/:id", async (req, res) => {
       const { id } = req.params;
       const query = { _id: new ObjectId(id) }; ///this id matches with mongodb _id
-      const result = await projectsCollection.deleteOne(query);
+      const result = await booksCollection.deleteOne(query);
       res.send(result);
     });
 
