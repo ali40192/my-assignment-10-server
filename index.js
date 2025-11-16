@@ -57,14 +57,14 @@ async function run() {
     });
     ////4.create many books
 
-    app.post("/allbooks/newCollection", async (req, res) => {
-      const booksnewCollection = req.body;
-      const result = await booksCollection.insertMany(booksnewCollection);
-      res.send(result);
-    });
+    // app.post("/allbooks/newCollection", async (req, res) => {
+    //   const booksnewCollection = req.body;
+    //   const result = await booksCollection.insertMany(booksnewCollection);
+    //   res.send(result);
+    // });
 
     ///5.Update single book
-    app.put("/single-book/:id", async (req, res) => {
+    app.put("/allbooks/:id", async (req, res) => {
       const { id } = req.params;
       const updatedBook = req.body;
       const filter = { _id: new ObjectId(id) };
@@ -75,7 +75,7 @@ async function run() {
 
     ///6.Delete single book
 
-    app.delete("/books/:id", async (req, res) => {
+    app.delete("/allbooks/:id", async (req, res) => {
       const { id } = req.params;
       const query = { _id: new ObjectId(id) }; ///this id matches with mongodb _id
       const result = await booksCollection.deleteOne(query);
