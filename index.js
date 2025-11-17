@@ -55,13 +55,6 @@ async function run() {
       const result = await booksCollection.insertOne(project);
       res.send(result);
     });
-    ////4.create many books
-
-    // app.post("/allbooks/newCollection", async (req, res) => {
-    //   const booksnewCollection = req.body;
-    //   const result = await booksCollection.insertMany(booksnewCollection);
-    //   res.send(result);
-    // });
 
     ///5.Update single book
     app.put("/allbooks/:id", async (req, res) => {
@@ -79,6 +72,14 @@ async function run() {
       const { id } = req.params;
       const query = { _id: new ObjectId(id) }; ///this id matches with mongodb _id
       const result = await booksCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    ///get book for my data//
+    app.get("/mybooks", async (req, res) => {
+      const email = req.query.email; //req.query.email is the email that i will get from the frontend
+
+      const result = await booksCollection.find({ userEmail: email }).toArray();
       res.send(result);
     });
 
